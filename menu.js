@@ -1,4 +1,4 @@
-/* menu.js - 테마 선택 제어 */
+/* menu.js - 화이트리스트 보안, 레퍼럴 유지 및 테마 선택 제어 */
 (function () {
   // =========================================================
   // [메뉴 테마 선택] 1, 2, 3, 4 중 원하는 번호를 지정하십시오.
@@ -9,18 +9,47 @@
   // =========================================================
   const CURRENT_THEME = 2;
 
+  const defaultRef = "KRAQ767727-0";
+
+  // 승인된 ID
+  const allowedRefs = [
+    "KRAQ917863-0",
+  ];
+
+  // 1. URL에서 ?ref= 파라미터 값 읽어오기
+  const urlParams = new URLSearchParams(window.location.search);
+  let userRef = urlParams.get('ref');
+
+  // 2. URL에 ref가 있으면 세션 저장소에 보관, 없으면 기존 저장값 가져오기
+  if (userRef) {
+    sessionStorage.setItem('saved_ref', userRef);
+  } else {
+    userRef = sessionStorage.getItem('saved_ref');
+  }
+
+  // 3. 화이트리스트 검증
+  let finalRef = defaultRef;
+  if (userRef && allowedRefs.includes(userRef)) {
+    finalRef = userRef;
+  }
+
+  // 타 스크립트에서 참조할 수 있도록 전역 변수 등록
+  window.FINAL_REF = finalRef;
+
+  // 4. 내부 링크용 쿼리 스트링
+  const internalRefQuery = (userRef && allowedRefs.includes(userRef)) ? `?ref=${userRef}` : '';
 
   // 상단 메뉴 데이터
   const topMenu = [
-    { name: "계산기", link: "compound_calculator.html", bg: "#d7bde2", target: "_self" },
-    { name: "뉴스", link: `youtube_anal_mobile.html`, bg: "#ffc4d7", target: "_self" },
+    { name: "계산기", link: "compound_calculator.html", bg: "#d7bde2", target: "_blank" },
+	{ name: "메뉴", link: `guide_buy.html${internalRefQuery}`, bg: "#ffc4d7", target: "_self" },
     { name: "메뉴", link: `akgnews.html${internalRefQuery}`, bg: "#d7bde2", target: "_self" },
     { name: "메뉴", link: `landing_apply.html${internalRefQuery}`, bg: "#ffc4d7", target: "_self" }
   ];
 
   // 하단 메뉴 데이터
   const bottomMenu = [
-    { name: "메뉴", link: `./${internalRefQuery}`, bg: "#ffccaa", target: "_self" },
+    { name: "HOME", link: "./", bg: "#ffccaa", target: "_self" },
     { name: "메뉴", link: "https://www.nextstarglobal.com/", bg: "#a3e4d7", target: "_blank" },
     { name: "메뉴", link: `guide_join.html${internalRefQuery}`, bg: "#a3e4d7", target: "_self" },
     { name: "메뉴", link: `guide_register.html${internalRefQuery}`, bg: "#ffccaa", target: "_self" }

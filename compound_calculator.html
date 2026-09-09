@@ -4,10 +4,9 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>자율 설정 복리 계산기</title>
+    <!-- 외부 스타일시트 및 메뉴 스크립트 연결 -->
     <link rel="stylesheet" href="style.css">
-  <!-- 메뉴 공통 스크립트 연결 -->
-  <script src="menu.js"></script>
-</head>
+    <script src="menu.js"></script>
     <style>
         :root {
             --bg-color: #121212;
@@ -24,7 +23,8 @@
             margin: 0;
             padding: 20px;
             display: flex;
-            justify-content: center;
+            flex-direction: column;
+            align-items: center;
         }
         .container {
             width: 100%;
@@ -34,6 +34,8 @@
             border-radius: 12px;
             box-shadow: 0 8px 24px rgba(0,0,0,0.5);
             border: 1px solid var(--border-color);
+            box-sizing: border-box;
+            margin: 20px 0;
         }
         h2 {
             margin-top: 0;
@@ -74,7 +76,7 @@
         input:focus, select:focus {
             border-color: var(--accent-color);
         }
-        button {
+        button.btn-calc {
             width: 100%;
             padding: 12px;
             background-color: var(--accent-color);
@@ -86,7 +88,7 @@
             cursor: pointer;
             transition: opacity 0.2s;
         }
-        button:hover {
+        button.btn-calc:hover {
             opacity: 0.9;
         }
         .summary-card {
@@ -115,7 +117,6 @@
         .summary-item .value.highlight {
             color: var(--accent-color);
         }
-        /* 테이블 컨테이너 내부 스크롤바 제거 및 전체 표시 설정 */
         .table-container {
             margin-top: 20px;
             border: 1px solid var(--border-color);
@@ -145,8 +146,8 @@
 <body>
 
 <!-- 상단 메뉴 자리 -->
-  <nav class="cell-nav"></nav>
-   <br> 
+<nav class="cell-nav"></nav>
+
 <div class="container">
     <h2>맞춤형 복리 수익 계산기</h2>
 
@@ -202,7 +203,7 @@
         </div>
     </div>
 
-    <button onclick="calculate()">시뮬레이션 실행</button>
+    <button class="btn-calc" onclick="calculate()">시뮬레이션 실행</button>
 
     <div id="summary" class="summary-card" style="display: none;">
         <div class="summary-item">
@@ -235,6 +236,12 @@
         </table>
     </div>
 </div>
+
+<!-- 하단 메뉴 자리 -->
+<nav class="cell-nav-bottom"></nav>
+
+<!-- 메뉴 자동 삽입 스크립트 -->
+<script src="menu.js"></script>
 
 <script>
 function formatCurrencyInput(input) {
@@ -358,13 +365,5 @@ function calculate() {
 }
 </script>
 
-<!-- 하단 메뉴 자리 -->
-  <nav class="cell-nav-bottom"></nav>
-
-  <!-- 메뉴 자동 삽입 스크립트 (맨 아래 배치) -->
-  <script src="menu.js"></script>
-
-</body>
-</html>    
 </body>
 </html>
