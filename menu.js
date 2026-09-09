@@ -41,7 +41,7 @@
 
   // 상단 메뉴 데이터
   const topMenu = [
-    { name: "메뉴", link: "https://www.roadmir.com/", bg: "#d7bde2", target: "_blank" },
+    { name: "계산기", link: "compound_calculator.html", bg: "#d7bde2", target: "_blank" },
     { name: "메뉴", link: `guide_buy.html${internalRefQuery}`, bg: "#ffc4d7", target: "_self" },
     { name: "메뉴", link: `akgnews.html${internalRefQuery}`, bg: "#d7bde2", target: "_self" },
     { name: "메뉴", link: `landing_apply.html${internalRefQuery}`, bg: "#ffc4d7", target: "_self" }
