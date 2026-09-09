@@ -42,17 +42,17 @@
   // 상단 메뉴 데이터
   const topMenu = [
     { name: "계산기", link: "compound_calculator.html", bg: "#d7bde2", target: "_blank" },
-	{ name: "메뉴", link: `guide_buy.html${internalRefQuery}`, bg: "#ffc4d7", target: "_self" },
-    { name: "메뉴", link: `akgnews.html${internalRefQuery}`, bg: "#d7bde2", target: "_self" },
-    { name: "메뉴", link: `landing_apply.html${internalRefQuery}`, bg: "#ffc4d7", target: "_self" }
+	{ name: "뉴스", link: "youtube_anal_mobile.html", bg: "#ffc4d7", target: "_self" },
+    { name: "뉴스2", link: "youtube_anal_mobile.html", bg: "#d7bde2", target: "_self" },
+    { name: "메뉴", link: "", bg: "#ffc4d7", target: "_self" }
   ];
 
   // 하단 메뉴 데이터
   const bottomMenu = [
     { name: "HOME", link: "./", bg: "#ffccaa", target: "_self" },
-    { name: "메뉴", link: "https://www.nextstarglobal.com/", bg: "#a3e4d7", target: "_blank" },
-    { name: "메뉴", link: `guide_join.html${internalRefQuery}`, bg: "#a3e4d7", target: "_self" },
-    { name: "메뉴", link: `guide_register.html${internalRefQuery}`, bg: "#ffccaa", target: "_self" }
+    { name: "메뉴", link: "", bg: "#a3e4d7", target: "_blank" },
+    { name: "메뉴", link: "", bg: "#a3e4d7", target: "_self" },
+    { name: "메뉴", link: "", bg: "#ffccaa", target: "_self" }
   ];
 
 
