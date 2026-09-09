@@ -16,18 +16,19 @@
             --border-color: #333333;
             --input-bg: #2a2a2a;
         }
+        /* body 여백 제거 및 style.css와 동기화 */
         body {
             font-family: 'Pretendard', -apple-system, BlinkMacSystemFont, system-ui, Roboto, sans-serif;
             background-color: var(--bg-color);
             color: var(--text-color);
             margin: 0;
-            padding: 20px;
+            padding: 0; /* 기존 20px 제거 -> 상단 메뉴 상단/좌우 밀착 */
             display: flex;
             flex-direction: column;
             align-items: center;
         }
         .container {
-            width: 100%;
+            width: 90%;
             max-width: 850px;
             background-color: var(--card-bg);
             padding: 25px;
@@ -35,7 +36,7 @@
             box-shadow: 0 8px 24px rgba(0,0,0,0.5);
             border: 1px solid var(--border-color);
             box-sizing: border-box;
-            margin: 20px 0;
+            margin: 20px auto;
         }
         h2 {
             margin-top: 0;
