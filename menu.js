@@ -42,7 +42,7 @@
   // 상단 메뉴 데이터
   const topMenu = [
     { name: "계산기", link: "compound_calculator.html", bg: "#d7bde2", target: "_blank" },
-	{ name: "뉴스", link: "youtube_anal_mobile.html", bg: "#ffc4d7", target: "_self" },
+	{ name: "뉴스", link: "youtube_anal.html", bg: "#ffc4d7", target: "_self" },
     { name: "뉴스2", link: "youtube_anal_mobile.html", bg: "#d7bde2", target: "_self" },
     { name: "메뉴", link: "", bg: "#ffc4d7", target: "_self" }
   ];
