@@ -1,0 +1,113 @@
+/* menu.css - 상/하단 고정 메뉴 컬러 테마 및 패딩 보정 세트 */
+
+/* 공통 고정 바 컨테이너 보정 */
+.cell-nav, .cell-nav-bottom {
+  gap: 6px;
+  backdrop-filter: blur(8px);
+}
+
+/* =========================================================
+   THEME 1: Neon Dark Cyber (네온 사이버 & 시안/핑크)
+   ========================================================= */
+.theme-1 {
+  background-color: rgba(10, 15, 30, 0.95) !important;
+  border-color: #00f0ff !important;
+}
+
+.theme-1 .cell-item {
+  border: none !important;
+  border-radius: 8px !important;
+  box-shadow: inset 1px 1px 2px rgba(255, 255, 255, 0.5), 2px 3px 6px rgba(0, 0, 0, 0.6) !important;
+  transition: transform 0.1s ease, box-shadow 0.1s ease;
+  padding: 14px 2px !important; /* 상하 패딩 확충으로 글자 공간 확보 */
+}
+
+.theme-1 .cell-item:nth-child(1) { background-color: #00f0ff !important; color: #000 !important; }
+.theme-1 .cell-item:nth-child(2) { background-color: #ff0055 !important; color: #fff !important; }
+.theme-1 .cell-item:nth-child(3) { background-color: #7000ff !important; color: #fff !important; }
+.theme-1 .cell-item:nth-child(4) { background-color: #00ff66 !important; color: #000 !important; }
+
+.theme-1 .cell-item:active {
+  transform: translateY(2px);
+  box-shadow: inset 1px 1px 4px rgba(0, 0, 0, 0.5) !important;
+}
+
+
+/* =========================================================
+   THEME 2: Warm Gold & Bronze (럭셔리 골드 & 브라운)
+   ========================================================= */
+.theme-2 {
+  background-color: rgba(20, 16, 10, 0.95) !important;
+  border-color: #d4af37 !important;
+}
+
+.theme-2 .cell-item {
+  border: none !important;
+  border-radius: 18px !important;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.5) !important;
+  transition: all 0.2s ease;
+  padding: 13px 2px !important;
+}
+
+.theme-2 .cell-item:nth-child(1) { background-color: #f3e5ab !important; color: #3a2e00 !important; }
+.theme-2 .cell-item:nth-child(2) { background-color: #d4af37 !important; color: #1a1300 !important; }
+.theme-2 .cell-item:nth-child(3) { background-color: #aa7c11 !important; color: #ffffff !important; }
+.theme-2 .cell-item:nth-child(4) { background-color: #e5c158 !important; color: #2b1f00 !important; }
+
+.theme-2 .cell-item:active {
+  transform: scale(0.95);
+  opacity: 0.9;
+}
+
+
+/* =========================================================
+   THEME 3: Vibrant Mint & Lime (비비드 민트 & 라임 파스텔)
+   ========================================================= */
+.theme-3 {
+  background-color: rgba(15, 28, 25, 0.95) !important;
+  border-color: #2ee6a8 !important;
+}
+
+.theme-3 .cell-item {
+  border: 1px solid rgba(255, 255, 255, 0.4) !important;
+  border-radius: 6px !important;
+  background-image: linear-gradient(180deg, rgba(255, 255, 255, 0.4) 0%, rgba(0, 0, 0, 0.15) 100%) !important;
+  box-shadow: 0 4px 0 rgba(0, 0, 0, 0.4), inset 0 1px 0 rgba(255, 255, 255, 0.6) !important;
+  padding: 12px 2px !important;
+}
+
+.theme-3 .cell-item:nth-child(1) { background-color: #2ee6a8 !important; color: #05261b !important; }
+.theme-3 .cell-item:nth-child(2) { background-color: #a8ff78 !important; color: #143305 !important; }
+.theme-3 .cell-item:nth-child(3) { background-color: #78ffd6 !important; color: #022e23 !important; }
+.theme-3 .cell-item:nth-child(4) { background-color: #f3f9a7 !important; color: #2e3302 !important; }
+
+.theme-3 .cell-item:active {
+  transform: translateY(3px);
+  box-shadow: 0 1px 0 rgba(0, 0, 0, 0.4), inset 0 1px 0 rgba(255, 255, 255, 0.6) !important;
+}
+
+
+/* =========================================================
+   THEME 4: Deep Slate & Lemon (슬레이트 다크 & 레몬 옐로우)
+   ========================================================= */
+.theme-4 {
+  background-color: rgba(18, 24, 38, 0.95) !important;
+  border-color: #ffe600 !important;
+}
+
+.theme-4 .cell-item {
+  border: 2px solid rgba(0, 0, 0, 0.2) !important;
+  border-radius: 10px !important;
+  box-shadow: 0 3px 6px rgba(0, 0, 0, 0.4) !important;
+  padding: 12px 2px !important;
+  transition: transform 0.15s ease;
+}
+
+.theme-4 .cell-item:nth-child(1) { background-color: #ffe600 !important; color: #111 !important; }
+.theme-4 .cell-item:nth-child(2) { background-color: #ff9900 !important; color: #111 !important; }
+.theme-4 .cell-item:nth-child(3) { background-color: #ff4b4b !important; color: #fff !important; }
+.theme-4 .cell-item:nth-child(4) { background-color: #9d50bb !important; color: #fff !important; }
+
+.theme-4 .cell-item:active {
+  transform: translateY(1px);
+}

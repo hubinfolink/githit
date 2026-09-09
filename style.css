@@ -1,0 +1,122 @@
+/* style.css - 원본 보존, menu.css 불러오기 및 글자 크기 중앙 통제 */
+@import url('menu.css');
+
+:root {
+  /* =========================================================
+     [글자 크기 조절 옵션 - 보스가 여기서 변경!]
+     18px : 기본 크기
+     20px : 약간 크게
+     22px : 버튼에 시원하게 꽉 차는 크기 (추천)
+     24px : 모바일 화면 한계까지 최대 꽉 차는 크기
+     ========================================================= */
+  --menu-font-size: 26px;
+}
+
+body {
+  margin: 0;
+  padding: 0;
+  background-color: #000;
+  text-align: center;
+  color: #fff;
+  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+  padding-bottom: 75px !important; /* 하단 메뉴 공간 확보 */
+}
+
+/* 상단 고정 네비게이션 */
+.cell-nav {
+  position: sticky;
+  top: 0;
+  z-index: 1000;
+  display: flex !important;
+  width: 100%;
+  margin: 0;
+  padding: 6px 4px !important; /* 패딩 감소로 버튼 영역 확대 */
+  box-sizing: border-box;
+}
+
+/* 하단 고정 가로 메뉴바 */
+.cell-nav-bottom {
+  position: fixed;
+  bottom: 0;
+  left: 0;
+  width: 100%;
+  z-index: 9999;
+  display: flex !important;
+  margin: 0;
+  padding: 6px 4px !important; /* 패딩 감소로 버튼 영역 확대 */
+  box-sizing: border-box;
+  box-shadow: 0 -2px 8px rgba(0, 0, 0, 0.4);
+}
+
+/* [핵심] 상단 및 하단 공통 셀 아이템 - 글자 꽉 차게 설정 */
+.cell-nav .cell-item,
+.cell-nav-bottom .cell-item {
+  flex: 1 1 0px !important;
+  width: 0 !important;
+  min-width: 0 !important;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  
+  /* 전역 변수 글자 크기 적용 */
+  font-size: var(--menu-font-size) !important;
+  font-weight: 900 !important; /* 글자 두께 극대화 */
+  letter-spacing: -1px; /* 글자 간격 살짝 줄여 꽉 차는 느낌 연출 */
+  
+  text-decoration: none;
+  text-align: center;
+  box-sizing: border-box;
+  word-break: keep-all;
+  white-space: nowrap;
+}
+
+/* 이미지 스타일 */
+img {
+  width: 90%;
+  max-width: 1080px;
+  height: auto;
+  display: block;
+  margin: 0 auto 5px auto;
+}
+
+/* 텍스트 박스 디자인 */
+.text-box {
+  max-width: 1080px;
+  margin: 30px auto;
+  padding: 15px 10px;
+  box-sizing: border-box;
+  background: #111111;
+  border: 1px solid #333333;
+  border-radius: 12px;
+  text-align: center;
+  width: 90%;
+}
+
+.text-title {
+  font-size: 24px;
+  font-weight: bold;
+  color: #ffffff;
+  margin-bottom: 1px;
+}
+
+.text-content {
+  font-size: 16px;
+  line-height: 1.6;
+  color: #cccccc;
+}
+
+/* 텍스트 박스 내 링크 스타일 설정 */
+.text-box a {
+  color: #ffffff !important;
+  text-decoration: none;
+  font-size: 24px;
+  font-weight: bold;
+  display: block;
+  word-break: keep-all;
+}
+
+.text-box a:hover, 
+.text-box a:active, 
+.text-box a:visited {
+  color: #ffffff !important;
+}
