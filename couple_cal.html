@@ -28,11 +28,23 @@
             }
         }
     </script>
-    <style>
+<style>
+        :root {
+            /* 💡 [글자 크기 전체 조절] */
+            /* 눈이 불편하시면 아래 16px 숫자를 18px ~ 22px 정도로 올려보세요! */
+            font-size: 20px;
+        }
+
+        html {
+            font-size: var(--font-size, 100%);
+        }
+
         body {
             -webkit-tap-highlight-color: transparent;
             font-family: 'Inter', sans-serif;
+            font-size: 1rem;
         }
+
         ::-webkit-scrollbar {
             width: 6px;
         }
