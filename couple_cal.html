@@ -29,12 +29,10 @@
         }
     </script>
     <style>
-        /* Touch Device Active States & Smooth Scrolling */
         body {
             -webkit-tap-highlight-color: transparent;
             font-family: 'Inter', sans-serif;
         }
-        /* Custom scrollbar for small screen heights */
         ::-webkit-scrollbar {
             width: 6px;
         }
@@ -49,82 +47,123 @@
 </head>
 <body class="bg-slate-900 text-slate-100 min-h-screen flex flex-col justify-between p-3 sm:p-5 select-none">
 
-    <div class="max-w-md w-full mx-auto space-y-4">
+    <div class="max-w-md w-full mx-auto space-y-3.5">
 
         <!-- Header -->
-        <header class="text-center pt-2 pb-1">
-            <div class="inline-flex items-center gap-2 bg-slate-800/80 border border-slate-700/60 px-3 py-1 rounded-full text-xs text-brand-500 font-semibold mb-1 shadow-sm">
+        <header class="text-center pt-1 pb-1">
+            <div class="inline-flex items-center gap-1.5 bg-slate-800/80 border border-slate-700/60 px-3 py-0.5 rounded-full text-[11px] text-brand-500 font-semibold mb-1 shadow-sm">
                 <span class="w-2 h-2 rounded-full bg-brand-500 animate-pulse"></span>
                 실시간 수익 계산기
             </div>
-            <h1 class="text-xl font-bold tracking-tight text-white">라이더 프로모션 시급 계산기</h1>
-            <p class="text-xs text-slate-400 mt-0.5">시간, 건수, 금액을 입력하면 시급과 총수익을 계산합니다.</p>
+            <h1 class="text-lg font-bold tracking-tight text-white">라이더 프로모션 시급 계산기</h1>
         </header>
 
-        <!-- Input Form Section -->
-        <section class="bg-slate-800/90 border border-slate-700/80 rounded-2xl p-4 shadow-xl backdrop-blur-sm space-y-3.5">
-            <div class="grid grid-cols-2 gap-3">
+        <section class="bg-slate-800/90 border border-slate-700/80 rounded-2xl p-3.5 shadow-xl backdrop-blur-sm space-y-3">
+
+            <!-- Card Header with Reset Button -->
+            <div class="flex items-center justify-between border-b border-slate-700/60 pb-2">
+                <span class="text-xs font-bold text-slate-300 flex items-center gap-1">
+                    ✏️ 데이터 입력
+                </span>
+                <button id="resetBtn" class="text-xs text-slate-300 hover:text-white bg-slate-700/60 hover:bg-slate-700 px-2.5 py-1 rounded-lg transition-all active:scale-95 flex items-center gap-1 border border-slate-600/50">
+                    🔄 값 비우기
+                </button>
+            </div>
+
+            <!-- Input Row 1: Hours & Count -->
+            <div class="grid grid-cols-2 gap-2.5">
                 <!-- Working Hours -->
                 <div>
-                    <label for="hours" class="block text-xs font-semibold text-slate-300 mb-1.5 flex items-center gap-1">
+                    <label for="hours" class="block text-[11px] font-semibold text-slate-400 mb-1">
                         ⏱️ 작업 시간
                     </label>
                     <div class="relative">
                         <input type="number" id="hours" value="3" step="any" min="0" placeholder="0"
-                            class="w-full bg-slate-900/90 border border-slate-700 focus:border-brand-500 focus:ring-2 focus:ring-brand-500/30 text-right text-lg font-bold text-white rounded-xl py-2.5 pl-3 pr-8 transition-all outline-none">
-                        <span class="absolute right-3 top-1/2 -translate-y-1/2 text-xs font-medium text-slate-400 pointer-events-none">시간</span>
+                            class="w-full bg-slate-900/90 border border-slate-700 focus:border-brand-500 focus:ring-2 focus:ring-brand-500/30 text-right text-base font-bold text-white rounded-xl py-2 pl-2 pr-8 transition-all outline-none">
+                        <span class="absolute right-2.5 top-1/2 -translate-y-1/2 text-xs font-medium text-slate-400 pointer-events-none">시간</span>
                     </div>
                 </div>
 
                 <!-- Delivery Count -->
                 <div>
-                    <label for="count" class="block text-xs font-semibold text-slate-300 mb-1.5 flex items-center gap-1">
+                    <label for="count" class="block text-[11px] font-semibold text-slate-400 mb-1">
                         📦 배달 건수
                     </label>
                     <div class="relative">
                         <input type="number" id="count" value="10" min="0" placeholder="0"
-                            class="w-full bg-slate-900/90 border border-slate-700 focus:border-brand-500 focus:ring-2 focus:ring-brand-500/30 text-right text-lg font-bold text-white rounded-xl py-2.5 pl-3 pr-8 transition-all outline-none">
-                        <span class="absolute right-3 top-1/2 -translate-y-1/2 text-xs font-medium text-slate-400 pointer-events-none">건</span>
+                            class="w-full bg-slate-900/90 border border-slate-700 focus:border-brand-500 focus:ring-2 focus:ring-brand-500/30 text-right text-base font-bold text-white rounded-xl py-2 pl-2 pr-8 transition-all outline-none">
+                        <span class="absolute right-2.5 top-1/2 -translate-y-1/2 text-xs font-medium text-slate-400 pointer-events-none">건</span>
                     </div>
                 </div>
             </div>
 
-            <!-- Base Amount -->
-            <div>
-                <label for="baseAmount" class="block text-xs font-semibold text-slate-300 mb-1.5 flex items-center gap-1">
-                    💰 기본 금액
-                </label>
-                <div class="relative">
-                    <input type="text" id="baseAmount" value="35,000" inputmode="numeric" placeholder="0"
-                        class="w-full bg-slate-900/90 border border-slate-700 focus:border-brand-500 focus:ring-2 focus:ring-brand-500/30 text-right text-xl font-extrabold text-brand-500 rounded-xl py-2.5 pl-3 pr-8 transition-all outline-none">
-                    <span class="absolute right-3 top-1/2 -translate-y-1/2 text-xs font-medium text-slate-400 pointer-events-none">원</span>
+            <!-- Input Row 2: Base Amount & Mission Amount -->
+            <div class="grid grid-cols-2 gap-2.5">
+                <!-- Base Amount -->
+                <div>
+                    <label for="baseAmount" class="block text-[11px] font-semibold text-slate-400 mb-1">
+                        💰 기본 금액
+                    </label>
+                    <div class="relative">
+                        <input type="text" id="baseAmount" value="35,000" inputmode="numeric" placeholder="0"
+                            class="w-full bg-slate-900/90 border border-slate-700 focus:border-brand-500 focus:ring-2 focus:ring-brand-500/30 text-right text-base font-bold text-brand-500 rounded-xl py-2 pl-2 pr-7 transition-all outline-none">
+                        <span class="absolute right-2.5 top-1/2 -translate-y-1/2 text-xs font-medium text-slate-400 pointer-events-none">원</span>
+                    </div>
+                </div>
+
+                <!-- Mission Amount -->
+                <div>
+                    <label for="missionAmount" class="block text-[11px] font-semibold text-slate-400 mb-1">
+                        🎯 미션 금액
+                    </label>
+                    <div class="relative">
+                        <input type="text" id="missionAmount" value="0" inputmode="numeric" placeholder="0"
+                            class="w-full bg-slate-900/90 border border-slate-700 focus:border-brand-500 focus:ring-2 focus:ring-brand-500/30 text-right text-base font-bold text-amber-400 rounded-xl py-2 pl-2 pr-7 transition-all outline-none">
+                        <span class="absolute right-2.5 top-1/2 -translate-y-1/2 text-xs font-medium text-slate-400 pointer-events-none">원</span>
+                    </div>
                 </div>
             </div>
 
-            <!-- Quick Input Reset/Preset Helper Buttons -->
-            <div class="flex items-center justify-between text-xs pt-1 border-t border-slate-700/50">
-                <span class="text-slate-400">빠른 초기화</span>
-                <button id="resetBtn" class="text-xs text-slate-400 hover:text-white bg-slate-700/50 hover:bg-slate-700 px-2.5 py-1 rounded-lg transition-colors flex items-center gap-1 active:scale-95">
-                    🔄 값 비우기
-                </button>
+            <div class="pt-2 border-t border-slate-700/60 space-y-2">
+                <div class="flex items-center justify-between">
+                    <span class="text-[11px] font-semibold text-slate-400">📋 요약문 복사</span>
+                    <!-- Promo Selector Buttons for Summary -->
+                    <div id="promoSelectorContainer" class="flex gap-1 overflow-x-auto pb-0.5 max-w-[210px]">
+                        <!-- Promo Tabs generated dynamically -->
+                    </div>
+                </div>
+
+                <div class="bg-slate-900/90 border border-slate-700/80 rounded-xl p-2.5 flex items-center justify-between gap-2">
+                    <div id="summaryText" class="text-xs font-medium text-slate-200 truncate select-all tracking-tight">
+                        총 10건, 3.3건/h, 시급 15,000원, 건당 4,500원
+                    </div>
+                    <button id="copyBtn" class="shrink-0 text-xs font-bold bg-brand-600 hover:bg-brand-500 text-white px-3 py-1.5 rounded-lg active:scale-95 transition-all flex items-center gap-1 shadow-sm">
+                        📋 복사
+                    </button>
+                </div>
             </div>
+
         </section>
 
-        <!-- Result Display Section -->
-        <section class="space-y-2.5">
+        <section class="space-y-2">
             <div class="flex items-center justify-between px-1">
                 <h2 class="text-xs font-bold text-slate-400 uppercase tracking-wider">프로모션별 예상 수익</h2>
-                <span class="text-[11px] text-slate-500">실시간 자동 계산됨</span>
+                <span class="text-[11px] text-slate-500">실시간 자동 계산</span>
             </div>
 
-            <div id="resultsContainer" class="space-y-2.5">
+            <div id="resultsContainer" class="space-y-2">
                 <!-- Result Cards generated dynamically via JavaScript -->
             </div>
         </section>
 
     </div>
 
-    <footer class="text-center text-[11px] text-slate-500 mt-6 pb-2">
+    <div id="toast" class="fixed bottom-6 left-1/2 -translate-x-1/2 bg-slate-800 text-white border border-brand-500/50 text-xs px-4 py-2.5 rounded-xl shadow-2xl transition-all duration-300 opacity-0 pointer-events-none translate-y-2 flex items-center gap-2">
+        <span class="text-brand-500 font-bold">✓</span>
+        <span id="toastMsg">클립보드에 복사되었습니다!</span>
+    </div>
+
+    <footer class="text-center text-[11px] text-slate-500 mt-4 pb-2">
         라이더 맞춤형 수익 계산기 &bull; 화면 분할 모드 최적화
     </footer>
 
@@ -138,12 +177,20 @@
             { id: 'p400', name: '프로모400', rate: 2000 },
         ];
 
+        let selectedPromoId = 'p200';
+
         // DOM Elements
         const hoursInput = document.getElementById('hours');
         const countInput = document.getElementById('count');
         const baseAmountInput = document.getElementById('baseAmount');
+        const missionAmountInput = document.getElementById('missionAmount');
         const resultsContainer = document.getElementById('resultsContainer');
         const resetBtn = document.getElementById('resetBtn');
+        const summaryTextEl = document.getElementById('summaryText');
+        const copyBtn = document.getElementById('copyBtn');
+        const promoSelectorContainer = document.getElementById('promoSelectorContainer');
+        const toast = document.getElementById('toast');
+        const toastMsg = document.getElementById('toastMsg');
 
         // Helper: Format Number with commas
         function formatNumber(num) {
@@ -158,21 +205,22 @@
             return parseInt(cleaned, 10) || 0;
         }
 
-        // Handle Base Amount Input Formatting (Comma addition while typing)
-        baseAmountInput.addEventListener('input', (e) => {
-            let cursorPosition = e.target.selectionStart;
-            let rawValue = parseFormattedNumber(e.target.value);
+        // Handle Input Number Formatting
+        function setupAmountInput(inputEl) {
+            inputEl.addEventListener('input', (e) => {
+                let rawValue = parseFormattedNumber(e.target.value);
+                if (rawValue === 0 && e.target.value.trim() === '') {
+                    e.target.value = '';
+                } else {
+                    e.target.value = rawValue.toLocaleString('ko-KR');
+                }
+                calculateAndRender();
+            });
+        }
 
-            if (rawValue === 0 && e.target.value.trim() === '') {
-                e.target.value = '';
-            } else {
-                e.target.value = rawValue.toLocaleString('ko-KR');
-            }
+        setupAmountInput(baseAmountInput);
+        setupAmountInput(missionAmountInput);
 
-            calculateAndRender();
-        });
-
-        // Trigger Calculation on Input Changes
         hoursInput.addEventListener('input', calculateAndRender);
         countInput.addEventListener('input', calculateAndRender);
 
@@ -181,39 +229,107 @@
             hoursInput.value = '';
             countInput.value = '';
             baseAmountInput.value = '';
+            missionAmountInput.value = '';
             calculateAndRender();
             hoursInput.focus();
+            showToast('모든 입력값이 초기화되었습니다.');
         });
+
+        // Copy Button Handler
+        copyBtn.addEventListener('click', () => {
+            const textToCopy = summaryTextEl.textContent.trim();
+            if (!textToCopy) return;
+
+            // Use execCommand for iframe compatibility
+            const textarea = document.createElement('textarea');
+            textarea.value = textToCopy;
+            textarea.style.position = 'fixed';
+            textarea.style.opacity = '0';
+            document.body.appendChild(textarea);
+            textarea.select();
+
+            try {
+                document.execCommand('copy');
+                showToast('요약문이 복사되었습니다!');
+            } catch (err) {
+                showToast('복사에 실패했습니다.');
+            } finally {
+                document.body.removeChild(textarea);
+            }
+        });
+
+        function showToast(message) {
+            toastMsg.textContent = message;
+            toast.classList.remove('opacity-0', 'pointer-events-none', 'translate-y-2');
+            toast.classList.add('opacity-100', 'translate-y-0');
+            setTimeout(() => {
+                toast.classList.remove('opacity-100', 'translate-y-0');
+                toast.classList.add('opacity-0', 'pointer-events-none', 'translate-y-2');
+            }, 2000);
+        }
+
+        function renderPromoTabs() {
+            promoSelectorContainer.innerHTML = PROMO_DATA.map(promo => {
+                const isSelected = promo.id === selectedPromoId;
+                return `
+                    <button type="button" onclick="selectPromo('${promo.id}')"
+                        class="text-[10px] px-1.5 py-0.5 rounded font-medium transition-all shrink-0 ${
+                            isSelected
+                            ? 'bg-brand-500 text-slate-950 font-bold'
+                            : 'bg-slate-700/50 text-slate-400 hover:text-slate-200'
+                        }">
+                        ${promo.name.replace('프로모', '')}
+                    </button>
+                `;
+            }).join('');
+        }
+
+        window.selectPromo = function(id) {
+            selectedPromoId = id;
+            calculateAndRender();
+        };
 
         function calculateAndRender() {
             const hours = parseFloat(hoursInput.value) || 0;
             const count = parseInt(countInput.value, 10) || 0;
             const baseAmount = parseFormattedNumber(baseAmountInput.value);
+            const missionAmount = parseFormattedNumber(missionAmountInput.value);
 
             let cardsHTML = '';
+            let currentSummaryText = '';
 
             PROMO_DATA.forEach((promo) => {
-                // Formula: Total Revenue = Base Amount + (Delivery Count * Promo Rate)
-                const totalIncome = baseAmount + (count * promo.rate);
+                // Formula: Total Revenue = Base Amount + Mission Amount + (Count * Promo Unit Price)
+                const totalIncome = baseAmount + missionAmount + (count * promo.rate);
 
                 // Formula: Hourly Wage = Math.round(Total Revenue / Hours)
-                let hourlyWage = 0;
-                if (hours > 0) {
-                    hourlyWage = Math.round(totalIncome / hours);
-                }
+                let hourlyWage = hours > 0 ? Math.round(totalIncome / hours) : 0;
+
+                // Formula: Per Delivery Rate = Math.round(Total Revenue / Count)
+                let perDeliveryRate = count > 0 ? Math.round(totalIncome / count) : 0;
+
+                // Deliveries per hour (1 decimal place)
+                let countPerHour = hours > 0 ? (count / hours).toFixed(1) : '0.0';
 
                 const hourlyWageText = hours > 0 ? `${formatNumber(hourlyWage)}원` : '-';
                 const totalIncomeText = `${formatNumber(totalIncome)}원`;
 
+                const isSelected = promo.id === selectedPromoId;
+
+                // Build Summary Text for Selected Promo
+                if (isSelected) {
+                    currentSummaryText = `총 ${formatNumber(count)}건, ${countPerHour}건/h, 시급 ${formatNumber(hourlyWage)}원, 건당 ${formatNumber(perDeliveryRate)}원`;
+                }
+
                 cardsHTML += `
-                    <div class="bg-slate-800/60 border border-slate-700/70 hover:border-slate-600 rounded-xl p-3.5 shadow-md transition-all">
+                    <div onclick="selectPromo('${promo.id}')" class="cursor-pointer bg-slate-800/60 border ${isSelected ? 'border-brand-500 ring-1 ring-brand-500/50 bg-slate-800/90' : 'border-slate-700/70 hover:border-slate-600'} rounded-xl p-3 shadow-md transition-all">
                         <!-- Top Row: Name & Unit Price -->
-                        <div class="flex items-center justify-between pb-2 mb-2.5 border-b border-slate-700/40">
+                        <div class="flex items-center justify-between pb-1.5 mb-2 border-b border-slate-700/40">
                             <div class="flex items-center gap-2">
-                                <span class="w-2 h-2 rounded-full bg-brand-500"></span>
-                                <span class="font-bold text-sm text-slate-100">${promo.name}</span>
+                                <span class="w-2 h-2 rounded-full ${isSelected ? 'bg-brand-500 animate-pulse' : 'bg-slate-500'}"></span>
+                                <span class="font-bold text-xs text-slate-100">${promo.name}</span>
                             </div>
-                            <span class="text-xs text-slate-400 bg-slate-900/60 px-2 py-0.5 rounded-md border border-slate-700/50">
+                            <span class="text-[11px] text-slate-400 bg-slate-900/60 px-2 py-0.5 rounded-md border border-slate-700/50">
                                 건당 +${formatNumber(promo.rate)}원
                             </span>
                         </div>
@@ -221,14 +337,14 @@
                         <!-- Bottom Grid: Hourly Wage & Total Revenue -->
                         <div class="grid grid-cols-2 gap-2 text-right">
                             <div class="bg-slate-900/50 p-2 rounded-lg border border-slate-800">
-                                <div class="text-[11px] font-medium text-slate-400 mb-0.5 text-left">시급</div>
-                                <div class="text-base font-extrabold ${hours > 0 ? 'text-amber-400' : 'text-slate-500'} tracking-tight">
+                                <div class="text-[10px] font-medium text-slate-400 mb-0.5 text-left">시급</div>
+                                <div class="text-sm font-extrabold ${hours > 0 ? 'text-amber-400' : 'text-slate-500'} tracking-tight">
                                     ${hourlyWageText}
                                 </div>
                             </div>
                             <div class="bg-slate-900/50 p-2 rounded-lg border border-slate-800">
-                                <div class="text-[11px] font-medium text-slate-400 mb-0.5 text-left">총수익</div>
-                                <div class="text-base font-extrabold text-brand-500 tracking-tight">
+                                <div class="text-[10px] font-medium text-slate-400 mb-0.5 text-left">총수익</div>
+                                <div class="text-sm font-extrabold text-brand-500 tracking-tight">
                                     ${totalIncomeText}
                                 </div>
                             </div>
@@ -238,6 +354,8 @@
             });
 
             resultsContainer.innerHTML = cardsHTML;
+            summaryTextEl.textContent = currentSummaryText;
+            renderPromoTabs();
         }
 
         // Initial Calculation Run on Page Load
