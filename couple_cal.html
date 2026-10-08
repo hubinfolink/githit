@@ -160,13 +160,14 @@
                 <span class="text-[10px] text-slate-400">선택한 프로모션 기준</span>
             </div>
 
-            <!-- 프로모션 필 선택 (400부터 역순) -->
+            <!-- 프로모션 탭 선택 (P400 ~ P0) -->
             <div class="flex items-center gap-1.5 overflow-x-auto pb-1 text-xs no-scrollbar" id="promoTabs">
                 <button data-promo-idx="0" class="promo-tab-btn px-2.5 py-1 rounded-lg bg-emerald-600 text-white font-semibold transition shrink-0 active:scale-95">P400(57)</button>
                 <button data-promo-idx="1" class="promo-tab-btn px-2.5 py-1 rounded-lg bg-slate-800 text-slate-400 font-semibold transition shrink-0 active:scale-95">P350(50)</button>
                 <button data-promo-idx="2" class="promo-tab-btn px-2.5 py-1 rounded-lg bg-slate-800 text-slate-400 font-semibold transition shrink-0 active:scale-95">P300(43)</button>
                 <button data-promo-idx="3" class="promo-tab-btn px-2.5 py-1 rounded-lg bg-slate-800 text-slate-400 font-semibold transition shrink-0 active:scale-95">P250(36)</button>
                 <button data-promo-idx="4" class="promo-tab-btn px-2.5 py-1 rounded-lg bg-slate-800 text-slate-400 font-semibold transition shrink-0 active:scale-95">P200(29)</button>
+                <button data-promo-idx="5" class="promo-tab-btn px-2.5 py-1 rounded-lg bg-slate-800 text-slate-400 font-semibold transition shrink-0 active:scale-95">P0</button>
             </div>
 
             <!-- 요약 문구 결과 박스 -->
@@ -217,13 +218,14 @@
     </div>
 
     <script>
-        // 프로모션 기본 데이터 (400부터 역순 정렬)
+        // 프로모션 기본 데이터 (P0 추가)
         const promoList = [
             { name: 'P400(57)', unitRate: 2000 },
             { name: 'P350(50)', unitRate: 1800 },
             { name: 'P300(43)', unitRate: 1600 },
             { name: 'P250(36)', unitRate: 1300 },
-            { name: 'P200(29)', unitRate: 1000 }
+            { name: 'P200(29)', unitRate: 1000 },
+            { name: 'P0', unitRate: 0 }
         ];
 
         // 기본 상태
