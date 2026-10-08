@@ -173,7 +173,7 @@
             <!-- 요약 문구 결과 박스 -->
             <div class="bg-slate-900/90 rounded-xl p-3 border border-slate-700/80 flex items-center justify-between gap-2">
                 <div id="summaryText" class="text-sm font-semibold text-slate-100 tracking-wide select-all break-all">
-                    총 0시간, 총수익 0원, 총 0건, 0.0건/h, 시급 0원, 건당 0원
+                    총 0시간, 총수익 0원, 총 0건, 0.0건/h, 시급 0원, 건당 0원, 프로모션 0원
                 </div>
                 <button id="copyBtn" class="bg-emerald-600 hover:bg-emerald-500 text-white px-3 py-2 rounded-lg font-bold text-xs flex items-center gap-1.5 shrink-0 active:scale-95 transition shadow-lg shadow-emerald-950">
                     <i class="fa-regular fa-copy"></i>
@@ -355,10 +355,10 @@
 
                 resultTableBody.appendChild(tr);
 
-                // 선택된 프로모션의 요약 문구 생성 (총시간, 총수익 맨 앞에 추가)
+                // 선택된 프로모션의 요약 문구 생성 (프로모션 금액 항목 추가)
                 if (isSelected) {
                     const countPerHour = hours > 0 ? (count / hours).toFixed(1) : '0.0';
-                    selectedSummary = `총 ${hours}시간, 총수익 ${totalIncome.toLocaleString()}원, 총 ${count.toLocaleString()}건, ${countPerHour}건/h, 시급 ${hourlyRate.toLocaleString()}원, 건당 ${perCountRate.toLocaleString()}원`;
+                    selectedSummary = `총 ${hours}시간, 총수익 ${totalIncome.toLocaleString()}원, 총 ${count.toLocaleString()}건, ${countPerHour}건/h, 시급 ${hourlyRate.toLocaleString()}원, 건당 ${perCountRate.toLocaleString()}원, 프로모션 ${promoEarnings.toLocaleString()}원`;
                 }
             });
 
