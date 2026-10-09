@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-    <title>라이더 프로모션 계산기</title>
+    <title>라이더 프로모션 계산기 (쿠팡+배민)</title>
     <!-- Tailwind CSS CDN -->
     <script src="https://cdn.tailwindcss.com"></script>
     <script>
@@ -95,56 +95,77 @@
                 </button>
             </div>
 
-            <!-- 입력 폼 그리드 -->
-            <div class="grid grid-cols-2 gap-3 pt-1">
-                <!-- 작업 시간 -->
-                <div class="flex flex-col gap-1.5">
-                    <label class="text-xs font-semibold text-slate-300 flex items-center gap-1.5">
-                        <span>⏱️</span> 작업 시간
-                    </label>
-                    <div class="relative flex items-center">
-                        <input type="number" id="inputHours" step="0.1" min="0" placeholder="0"
-                            class="w-full bg-inputBg border border-slate-700 rounded-xl px-3 py-2.5 text-right font-bold text-lg text-white focus:outline-none focus:border-emerald-500 focus:ring-1 focus:ring-emerald-500 transition pr-10">
-                        <span class="absolute right-3 text-xs text-slate-400 pointer-events-none font-medium">시간</span>
+            <!-- 공통: 총 작업 시간 -->
+            <div class="flex flex-col gap-1.5 pt-1">
+                <label class="text-xs font-semibold text-slate-300 flex items-center gap-1.5">
+                    <span>⏱️</span> 총 작업 시간 (쿠팡 + 배민)
+                </label>
+                <div class="relative flex items-center">
+                    <input type="number" id="inputHours" step="0.1" min="0" placeholder="0"
+                        class="w-full bg-inputBg border border-slate-700 rounded-xl px-3 py-2.5 text-right font-bold text-lg text-white focus:outline-none focus:border-emerald-500 focus:ring-1 focus:ring-emerald-500 transition pr-10">
+                    <span class="absolute right-3 text-xs text-slate-400 pointer-events-none font-medium">시간</span>
+                </div>
+            </div>
+
+            <!-- 쿠팡 섹션 -->
+            <div class="bg-slate-900/60 rounded-xl p-3 border border-emerald-900/50 flex flex-col gap-2.5 mt-1">
+                <div class="text-xs font-bold text-emerald-400 flex items-center gap-1">
+                    <span>🚀</span> 쿠팡이츠 (프로모션 적용)
+                </div>
+                <div class="grid grid-cols-2 gap-2.5">
+                    <!-- 쿠팡 건수 -->
+                    <div class="flex flex-col gap-1">
+                        <label class="text-[11px] font-semibold text-slate-300">쿠팡 건수</label>
+                        <div class="relative flex items-center">
+                            <input type="number" id="inputCoupangCount" step="1" min="0" placeholder="0"
+                                class="w-full bg-inputBg border border-slate-700 rounded-lg px-2.5 py-2 text-right font-bold text-base text-white focus:outline-none focus:border-emerald-500 transition pr-7">
+                            <span class="absolute right-2.5 text-xs text-slate-400 pointer-events-none">건</span>
+                        </div>
+                    </div>
+                    <!-- 쿠팡 기본금액 -->
+                    <div class="flex flex-col gap-1">
+                        <label class="text-[11px] font-semibold text-slate-300">쿠팡 기본금</label>
+                        <div class="relative flex items-center">
+                            <input type="number" id="inputCoupangBase" step="100" min="0" placeholder="0"
+                                class="w-full bg-inputBg border border-slate-700 rounded-lg px-2.5 py-2 text-right font-bold text-base text-emerald-400 focus:outline-none focus:border-emerald-500 transition pr-7">
+                            <span class="absolute right-2.5 text-xs text-slate-400 pointer-events-none">원</span>
+                        </div>
                     </div>
                 </div>
-
-                <!-- 배달 건수 -->
-                <div class="flex flex-col gap-1.5">
-                    <label class="text-xs font-semibold text-slate-300 flex items-center gap-1.5">
-                        <span>📦</span> 배달 건수
-                    </label>
+                <!-- 쿠팡 미션금액 -->
+                <div class="flex flex-col gap-1">
+                    <label class="text-[11px] font-semibold text-amber-300">🎯 쿠팡 미션금액</label>
                     <div class="relative flex items-center">
-                        <input type="number" id="inputCount" step="1" min="0" placeholder="0"
-                            class="w-full bg-inputBg border border-slate-700 rounded-xl px-3 py-2.5 text-right font-bold text-lg text-white focus:outline-none focus:border-emerald-500 focus:ring-1 focus:ring-emerald-500 transition pr-8">
-                        <span class="absolute right-3 text-xs text-slate-400 pointer-events-none font-medium">건</span>
+                        <input type="number" id="inputCoupangMission" step="100" min="0" placeholder="0"
+                            class="w-full bg-inputBg border border-slate-700 rounded-lg px-2.5 py-2 text-right font-bold text-base text-amber-300 focus:outline-none focus:border-amber-500 transition pr-7">
+                        <span class="absolute right-2.5 text-xs text-slate-400 pointer-events-none">원</span>
                     </div>
                 </div>
             </div>
 
-            <!-- 금액 및 미션 입력 -->
-            <div class="grid grid-cols-1 gap-3">
-                <!-- 기본 금액 -->
-                <div class="flex flex-col gap-1.5">
-                    <label class="text-xs font-semibold text-slate-300 flex items-center gap-1.5">
-                        <span>💰</span> 기본 금액
-                    </label>
-                    <div class="relative flex items-center">
-                        <input type="number" id="inputBaseAmount" step="100" min="0" placeholder="0"
-                            class="w-full bg-inputBg border border-slate-700 rounded-xl px-3 py-2.5 text-right font-bold text-lg text-emerald-400 focus:outline-none focus:border-emerald-500 focus:ring-1 focus:ring-emerald-500 transition pr-8">
-                        <span class="absolute right-3 text-xs text-slate-400 pointer-events-none font-medium">원</span>
-                    </div>
+            <!-- 배민 섹션 -->
+            <div class="bg-slate-900/60 rounded-xl p-3 border border-sky-900/50 flex flex-col gap-2.5">
+                <div class="text-xs font-bold text-sky-400 flex items-center gap-1">
+                    <span>🛵</span> 배달의민족 (프로모션 미적용)
                 </div>
-
-                <!-- 미션 금액 -->
-                <div class="flex flex-col gap-1.5">
-                    <label class="text-xs font-semibold text-amber-300 flex items-center gap-1.5">
-                        <span>🎯</span> 미션 금액
-                    </label>
-                    <div class="relative flex items-center">
-                        <input type="number" id="inputMissionAmount" step="100" min="0" placeholder="0"
-                            class="w-full bg-inputBg border border-slate-700 rounded-xl px-3 py-2.5 text-right font-bold text-lg text-amber-300 focus:outline-none focus:border-amber-500 focus:ring-1 focus:ring-amber-500 transition pr-8">
-                        <span class="absolute right-3 text-slate-400 text-xs pointer-events-none font-medium">원</span>
+                <div class="grid grid-cols-2 gap-2.5">
+                    <!-- 배민 건수 -->
+                    <div class="flex flex-col gap-1">
+                        <label class="text-[11px] font-semibold text-slate-300">배민 건수</label>
+                        <div class="relative flex items-center">
+                            <input type="number" id="inputBaeminCount" step="1" min="0" placeholder="0"
+                                class="w-full bg-inputBg border border-slate-700 rounded-lg px-2.5 py-2 text-right font-bold text-base text-white focus:outline-none focus:border-sky-500 transition pr-7">
+                            <span class="absolute right-2.5 text-xs text-slate-400 pointer-events-none">건</span>
+                        </div>
+                    </div>
+                    <!-- 배민 총수익 -->
+                    <div class="flex flex-col gap-1">
+                        <label class="text-[11px] font-semibold text-slate-300">배민 총수익</label>
+                        <div class="relative flex items-center">
+                            <input type="number" id="inputBaeminAmount" step="100" min="0" placeholder="0"
+                                class="w-full bg-inputBg border border-slate-700 rounded-lg px-2.5 py-2 text-right font-bold text-base text-sky-300 focus:outline-none focus:border-sky-500 transition pr-7">
+                            <span class="absolute right-2.5 text-xs text-slate-400 pointer-events-none">원</span>
+                        </div>
                     </div>
                 </div>
             </div>
@@ -157,7 +178,7 @@
                 <span class="text-xs font-bold text-slate-300 flex items-center gap-1.5">
                     <span>📋</span> 요약 텍스트
                 </span>
-                <span class="text-[10px] text-slate-400">선택한 프로모션 기준</span>
+                <span class="text-[10px] text-slate-400">선택한 쿠팡 프로모션 기준</span>
             </div>
 
             <!-- 프로모션 탭 선택 (P400 ~ P0) -->
@@ -170,12 +191,18 @@
                 <button data-promo-idx="5" class="promo-tab-btn px-2.5 py-1 rounded-lg bg-slate-800 text-slate-400 font-semibold transition shrink-0 active:scale-95">P0</button>
             </div>
 
-            <!-- 요약 문구 결과 박스 -->
-            <div class="bg-slate-900/90 rounded-xl p-3 border border-slate-700/80 flex items-center justify-between gap-2">
-                <div id="summaryText" class="text-sm font-semibold text-slate-100 tracking-wide select-all break-all">
-                    총 0시간, 총수익 0원, 총 0건, 0.0건/h, 시급 0원, 건당 0원, 프로모션 0원
+            <!-- 요약 문구 결과 박스 (줄바꿈 스타일 적용) -->
+            <div class="bg-slate-900/90 rounded-xl p-3 border border-slate-700/80 flex items-start justify-between gap-2">
+                <div id="summaryText" class="text-sm font-semibold text-slate-100 tracking-wide select-all break-all whitespace-pre-line leading-snug">
+총 0시간
+총수익 0원
+총 0건
+0.0건/h
+시급 0원
+건당 0원
+프로모션 0원
                 </div>
-                <button id="copyBtn" class="bg-emerald-600 hover:bg-emerald-500 text-white px-3 py-2 rounded-lg font-bold text-xs flex items-center gap-1.5 shrink-0 active:scale-95 transition shadow-lg shadow-emerald-950">
+                <button id="copyBtn" class="bg-emerald-600 hover:bg-emerald-500 text-white px-3 py-2 rounded-lg font-bold text-xs flex items-center gap-1.5 shrink-0 active:scale-95 transition shadow-lg shadow-emerald-950 mt-0.5">
                     <i class="fa-regular fa-copy"></i>
                     <span>복사</span>
                 </button>
@@ -218,7 +245,7 @@
     </div>
 
     <script>
-        // 프로모션 기본 데이터 (P0 추가)
+        // 프로모션 기본 데이터
         const promoList = [
             { name: 'P400(57)', unitRate: 2000 },
             { name: 'P350(50)', unitRate: 1800 },
@@ -234,9 +261,12 @@
 
         // DOM 요소
         const inputHours = document.getElementById('inputHours');
-        const inputCount = document.getElementById('inputCount');
-        const inputBaseAmount = document.getElementById('inputBaseAmount');
-        const inputMissionAmount = document.getElementById('inputMissionAmount');
+        const inputCoupangCount = document.getElementById('inputCoupangCount');
+        const inputCoupangBase = document.getElementById('inputCoupangBase');
+        const inputCoupangMission = document.getElementById('inputCoupangMission');
+        const inputBaeminCount = document.getElementById('inputBaeminCount');
+        const inputBaeminAmount = document.getElementById('inputBaeminAmount');
+
         const resultTableBody = document.getElementById('resultTableBody');
         const summaryText = document.getElementById('summaryText');
         const resetBtn = document.getElementById('resetBtn');
@@ -253,14 +283,23 @@
         function init() {
             applyFontSize(currentFontSize);
 
-            // 초기 예시 데이터 세팅
+            // 초기 예시 데이터 세팅 (쿠팡 10건/3.5만, 배민 0건)
             inputHours.value = 3;
-            inputCount.value = 10;
-            inputBaseAmount.value = 35000;
-            inputMissionAmount.value = '';
+            inputCoupangCount.value = 10;
+            inputCoupangBase.value = 35000;
+            inputCoupangMission.value = '';
+            inputBaeminCount.value = '';
+            inputBaeminAmount.value = '';
 
             // 이벤트 리스너 바인딩
-            [inputHours, inputCount, inputBaseAmount, inputMissionAmount].forEach(input => {
+            [
+                inputHours,
+                inputCoupangCount,
+                inputCoupangBase,
+                inputCoupangMission,
+                inputBaeminCount,
+                inputBaeminAmount
+            ].forEach(input => {
                 input.addEventListener('input', calculateAll);
             });
 
@@ -309,26 +348,35 @@
         // 계산 및 화면 업데이트
         function calculateAll() {
             const hours = parseFloat(inputHours.value) || 0;
-            const count = parseFloat(inputCount.value) || 0;
-            const baseAmount = parseFloat(inputBaseAmount.value) || 0;
-            const missionAmount = parseFloat(inputMissionAmount.value) || 0;
+
+            // 쿠팡 입력값
+            const coupangCount = parseFloat(inputCoupangCount.value) || 0;
+            const coupangBase = parseFloat(inputCoupangBase.value) || 0;
+            const coupangMission = parseFloat(inputCoupangMission.value) || 0;
+
+            // 배민 입력값
+            const baeminCount = parseFloat(inputBaeminCount.value) || 0;
+            const baeminAmount = parseFloat(inputBaeminAmount.value) || 0;
+
+            // 통합 합산 건수
+            const totalCount = coupangCount + baeminCount;
 
             resultTableBody.innerHTML = '';
 
             let selectedSummary = '';
 
             promoList.forEach((promo, idx) => {
-                // 프로모션 추가 수익 = 건수 * 단가
-                const promoEarnings = count * promo.unitRate;
+                // 쿠팡 건수에만 프로모션 단가 적용
+                const promoEarnings = coupangCount * promo.unitRate;
 
-                // 총 수익 = 기본금액 + 미션금액 + 프로모션수익
-                const totalIncome = baseAmount + missionAmount + promoEarnings;
+                // 총수익 = 쿠팡기본금 + 쿠팡미션금 + 쿠팡프로모션금 + 배민총수익
+                const totalIncome = coupangBase + coupangMission + promoEarnings + baeminAmount;
 
-                // 시급 = 총수익 / 시간 (반올림)
+                // 전체 시급 = 총수익 / 총시간 (반올림)
                 const hourlyRate = hours > 0 ? Math.round(totalIncome / hours) : 0;
 
-                // 건당 평균 단가 = 총수익 / 건수 (반올림)
-                const perCountRate = count > 0 ? Math.round(totalIncome / count) : 0;
+                // 전체 건당 평균 단가 = 총수익 / 전체건수 (반올림)
+                const perCountRate = totalCount > 0 ? Math.round(totalIncome / totalCount) : 0;
 
                 const isSelected = idx === currentPromoIndex;
 
@@ -355,10 +403,10 @@
 
                 resultTableBody.appendChild(tr);
 
-                // 선택된 프로모션의 요약 문구 생성 (프로모션 금액 항목 추가)
+                // 선택된 프로모션의 요약 문구 생성 (줄바꿈 \n 방식 적용)
                 if (isSelected) {
-                    const countPerHour = hours > 0 ? (count / hours).toFixed(1) : '0.0';
-                    selectedSummary = `총 ${hours}시간, 총수익 ${totalIncome.toLocaleString()}원, 총 ${count.toLocaleString()}건, ${countPerHour}건/h, 시급 ${hourlyRate.toLocaleString()}원, 건당 ${perCountRate.toLocaleString()}원, 프로모션 ${promoEarnings.toLocaleString()}원`;
+                    const countPerHour = hours > 0 ? (totalCount / hours).toFixed(1) : '0.0';
+                    selectedSummary = `총 ${hours}시간\n총수익 ${totalIncome.toLocaleString()}원\n총 ${totalCount.toLocaleString()}건\n${countPerHour}건/h\n시급 ${hourlyRate.toLocaleString()}원\n건당 ${perCountRate.toLocaleString()}원\n프로모션 ${promoEarnings.toLocaleString()}원`;
                 }
             });
 
@@ -368,9 +416,11 @@
         // 입력값 초기화
         function resetInputs() {
             inputHours.value = '';
-            inputCount.value = '';
-            inputBaseAmount.value = '';
-            inputMissionAmount.value = '';
+            inputCoupangCount.value = '';
+            inputCoupangBase.value = '';
+            inputCoupangMission.value = '';
+            inputBaeminCount.value = '';
+            inputBaeminAmount.value = '';
             calculateAll();
             inputHours.focus();
         }
