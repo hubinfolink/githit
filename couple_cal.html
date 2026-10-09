@@ -25,6 +25,8 @@
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <!-- Google Fonts -->
     <link href="https://fonts.googleapis.com/css2?family=Pretendard:wght@400;600;700;800&display=swap" rel="stylesheet">
+    <!-- html2canvas 라이브러리 (HTML 영역을 이미지로 변환) -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script>
     <style>
         :root {
             font-size: 22px; /* 기본 글자 크기 22px */
@@ -215,7 +217,7 @@
                             <span>전체 한줄 복사</span>
                         </button>
                     </div>
-                    <!-- 신규: 핵심 한줄 복사 버튼 -->
+                    <!-- 핵심 한줄 복사 버튼 -->
                     <button id="copyCoreBtn" class="w-full bg-purple-600 hover:bg-purple-500 text-white py-2 rounded-lg font-bold text-xs flex items-center justify-center gap-1.5 active:scale-95 transition shadow-lg shadow-purple-950">
                         <i class="fa-solid fa-list-check"></i>
                         <span>핵심 한줄 복사 (건수/건h/시급/건당)</span>
@@ -224,13 +226,23 @@
             </div>
         </div>
 
-        <!-- 계산 결과 표 카드 -->
-        <div class="bg-cardBg rounded-2xl p-4 border border-slate-800 shadow-xl">
+        <!-- 계산 결과 표 카드 (이미지 캡처 대상) -->
+        <div id="captureArea" class="bg-cardBg rounded-2xl p-4 border border-slate-800 shadow-xl">
             <div class="flex items-center justify-between mb-3">
                 <h2 class="text-sm font-bold text-slate-200 flex items-center gap-1.5">
                     <span>📊</span> 프로모션별 비교표
                 </h2>
-                <span class="text-[11px] text-slate-400">단가 / 시급 / 총수익</span>
+                <!-- 이미지 복사/저장 버튼 2개 추가 -->
+                <div class="flex items-center gap-1.5">
+                    <button id="copyImageBtn" title="이미지로 클립보드 복사" class="bg-indigo-600 hover:bg-indigo-500 text-white text-[11px] font-bold px-2 py-1 rounded-lg flex items-center gap-1 active:scale-95 transition">
+                        <i class="fa-regular fa-image"></i>
+                        <span>이미지 복사</span>
+                    </button>
+                    <button id="downloadImageBtn" title="이미지 파일로 저장" class="bg-slate-700 hover:bg-slate-600 text-slate-200 text-[11px] font-bold px-2 py-1 rounded-lg flex items-center gap-1 active:scale-95 transition">
+                        <i class="fa-solid fa-download"></i>
+                        <span>저장</span>
+                    </button>
+                </div>
             </div>
 
             <!-- 결과 테이블 -->
@@ -291,6 +303,10 @@
         const copyMultilineBtn = document.getElementById('copyMultilineBtn');
         const copySinglelineBtn = document.getElementById('copySinglelineBtn');
         const copyCoreBtn = document.getElementById('copyCoreBtn');
+        const copyImageBtn = document.getElementById('copyImageBtn');
+        const downloadImageBtn = document.getElementById('downloadImageBtn');
+        const captureArea = document.getElementById('captureArea');
+
         const toast = document.getElementById('toast');
         const toastMessage = document.getElementById('toastMessage');
         const promoTabs = document.getElementById('promoTabs');
@@ -326,20 +342,22 @@
 
             resetBtn.addEventListener('click', resetInputs);
 
-            // 줄바꿈 복사 버튼
+            // 텍스트 복사 버튼들
             copyMultilineBtn.addEventListener('click', () => {
                 copyToClipboard(multilineSummaryText, "줄바꿈 텍스트가 복사되었습니다!");
             });
 
-            // 전체 한줄 복사 버튼
             copySinglelineBtn.addEventListener('click', () => {
                 copyToClipboard(singlelineSummaryText, "전체 한줄 텍스트가 복사되었습니다!");
             });
 
-            // 핵심 한줄 복사 버튼
             copyCoreBtn.addEventListener('click', () => {
                 copyToClipboard(coreSummaryText, "핵심 요약 텍스트가 복사되었습니다!");
             });
+
+            // 이미지 복사 및 저장 버튼들
+            copyImageBtn.addEventListener('click', copyTableAsImage);
+            downloadImageBtn.addEventListener('click', downloadTableAsImage);
 
             btnFontDec.addEventListener('click', () => changeFontSize(-1));
             btnFontInc.addEventListener('click', () => changeFontSize(1));
@@ -440,17 +458,11 @@
                 if (isSelected) {
                     const countPerHour = hours > 0 ? (totalCount / hours).toFixed(1) : '0.0';
 
-                    // 쿠팡 미션금액 항목 문구 (있을 경우만 표시)
                     const missionPart = coupangMission > 0 ? `쿠팡 미션 ${coupangMission.toLocaleString()}원\n` : '';
                     const missionPartSingle = coupangMission > 0 ? `쿠팡 미션 ${coupangMission.toLocaleString()}원, ` : '';
 
-                    // 1. 줄바꿈 버전 (채팅용)
                     multilineSummaryText = `총 ${hours}시간\n총수익 ${totalIncome.toLocaleString()}원\n총 ${totalCount.toLocaleString()}건\n${countPerHour}건/h\n시급 ${hourlyRate.toLocaleString()}원\n건당 ${perCountRate.toLocaleString()}원\n${missionPart}프로모션 ${promo.name} ${promoEarnings.toLocaleString()}원`;
-
-                    // 2. 전체 한줄 버전 (가계부용)
                     singlelineSummaryText = `총 ${hours}시간, 총수익 ${totalIncome.toLocaleString()}원, 총 ${totalCount.toLocaleString()}건, ${countPerHour}건/h, 시급 ${hourlyRate.toLocaleString()}원, 건당 ${perCountRate.toLocaleString()}원, ${missionPartSingle}프로모션 ${promo.name} ${promoEarnings.toLocaleString()}원`;
-
-                    // 3. 핵심 한줄 버전 (요청 항목: 총 건수, 건/h, 시급, 건당)
                     coreSummaryText = `총 ${totalCount.toLocaleString()}건, ${countPerHour}건/h, 시급 ${hourlyRate.toLocaleString()}원, 건당 ${perCountRate.toLocaleString()}원`;
                 }
             });
@@ -470,7 +482,7 @@
             inputHours.focus();
         }
 
-        // 클립보드 복사 공통 함수
+        // 텍스트 클립보드 복사
         function copyToClipboard(textToCopy, msg) {
             if (!textToCopy) return;
 
@@ -487,6 +499,44 @@
             });
         }
 
+        // 비교표 이미지 클립보드 복사
+        function copyTableAsImage() {
+            showToast("비교표 이미지를 생성 중입니다...");
+            html2canvas(captureArea, {
+                backgroundColor: '#1e293b',
+                scale: 2 // 고화질 출력
+            }).then(canvas => {
+                canvas.toBlob(blob => {
+                    if (!blob) return;
+                    try {
+                        const item = new ClipboardItem({ 'image/png': blob });
+                        navigator.clipboard.write([item]).then(() => {
+                            showToast("📸 비교표 이미지가 클립보드에 복사되었습니다!");
+                        }).catch(err => {
+                            showToast("⚠️ 이미지 복사 미지원 브라우저입니다. [저장] 버튼을 이용해주세요.");
+                        });
+                    } catch (err) {
+                        showToast("⚠️ 이미지 복사 미지원 브라우저입니다. [저장] 버튼을 이용해주세요.");
+                    }
+                }, 'image/png');
+            });
+        }
+
+        // 비교표 이미지 다운로드/저장
+        function downloadTableAsImage() {
+            showToast("이미지 파일 저장 중...");
+            html2canvas(captureArea, {
+                backgroundColor: '#1e293b',
+                scale: 2
+            }).then(canvas => {
+                const link = document.createElement('a');
+                link.download = '라이더_프로모션_비교표.png';
+                link.href = canvas.toDataURL('image/png');
+                link.click();
+                showToast("💾 비교표 이미지가 저장되었습니다!");
+            });
+        }
+
         // 토스트 알림
         function showToast(msg) {
             toastMessage.textContent = msg;
@@ -495,7 +545,7 @@
             setTimeout(() => {
                 toast.classList.remove('translate-y-0', 'opacity-100');
                 toast.classList.add('translate-y-16', 'opacity-0');
-            }, 2000);
+            }, 2500);
         }
 
         // 실행
