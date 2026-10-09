@@ -191,8 +191,8 @@
                 <button data-promo-idx="5" class="promo-tab-btn px-2.5 py-1 rounded-lg bg-slate-800 text-slate-400 font-semibold transition shrink-0 active:scale-95">P0</button>
             </div>
 
-            <!-- 요약 문구 결과 박스 (줄바꿈 스타일 적용) -->
-            <div class="bg-slate-900/90 rounded-xl p-3 border border-slate-700/80 flex items-start justify-between gap-2">
+            <!-- 요약 문구 결과 박스 및 2개 복사 버튼 -->
+            <div class="bg-slate-900/90 rounded-xl p-3 border border-slate-700/80 flex flex-col gap-3">
                 <div id="summaryText" class="text-sm font-semibold text-slate-100 tracking-wide select-all break-all whitespace-pre-line leading-snug">
 총 0시간
 총수익 0원
@@ -202,10 +202,18 @@
 건당 0원
 프로모션 0원
                 </div>
-                <button id="copyBtn" class="bg-emerald-600 hover:bg-emerald-500 text-white px-3 py-2 rounded-lg font-bold text-xs flex items-center gap-1.5 shrink-0 active:scale-95 transition shadow-lg shadow-emerald-950 mt-0.5">
-                    <i class="fa-regular fa-copy"></i>
-                    <span>복사</span>
-                </button>
+
+                <!-- 복사 버튼 2개 (줄바꿈 / 한줄) -->
+                <div class="flex items-center gap-2 pt-2 border-t border-slate-800">
+                    <button id="copyMultilineBtn" class="flex-1 bg-emerald-600 hover:bg-emerald-500 text-white py-2 rounded-lg font-bold text-xs flex items-center justify-center gap-1.5 active:scale-95 transition shadow-lg shadow-emerald-950">
+                        <i class="fa-regular fa-copy"></i>
+                        <span>줄바꿈 복사 (채팅용)</span>
+                    </button>
+                    <button id="copySinglelineBtn" class="flex-1 bg-sky-600 hover:bg-sky-500 text-white py-2 rounded-lg font-bold text-xs flex items-center justify-center gap-1.5 active:scale-95 transition shadow-lg shadow-sky-950">
+                        <i class="fa-regular fa-file-lines"></i>
+                        <span>한줄 복사 (가계부용)</span>
+                    </button>
+                </div>
             </div>
         </div>
 
@@ -241,7 +249,7 @@
     <!-- 복사 완료 토스트 알림 -->
     <div id="toast" class="fixed bottom-6 bg-emerald-500 text-slate-950 px-4 py-2.5 rounded-xl font-bold text-sm shadow-2xl transition-all duration-300 transform translate-y-16 opacity-0 flex items-center gap-2 pointer-events-none z-50">
         <i class="fa-solid fa-check"></i>
-        <span>클립보드에 복사되었습니다!</span>
+        <span id="toastMessage">클립보드에 복사되었습니다!</span>
     </div>
 
     <script>
@@ -258,6 +266,8 @@
         // 기본 상태
         let currentPromoIndex = 0;
         let currentFontSize = parseInt(localStorage.getItem('rider_font_size')) || 22;
+        let multilineSummaryText = '';
+        let singlelineSummaryText = '';
 
         // DOM 요소
         const inputHours = document.getElementById('inputHours');
@@ -270,8 +280,10 @@
         const resultTableBody = document.getElementById('resultTableBody');
         const summaryText = document.getElementById('summaryText');
         const resetBtn = document.getElementById('resetBtn');
-        const copyBtn = document.getElementById('copyBtn');
+        const copyMultilineBtn = document.getElementById('copyMultilineBtn');
+        const copySinglelineBtn = document.getElementById('copySinglelineBtn');
         const toast = document.getElementById('toast');
+        const toastMessage = document.getElementById('toastMessage');
         const promoTabs = document.getElementById('promoTabs');
 
         // Font Size Controls
@@ -283,7 +295,7 @@
         function init() {
             applyFontSize(currentFontSize);
 
-            // 초기 예시 데이터 세팅 (쿠팡 10건/3.5만, 배민 0건)
+            // 초기 예시 데이터 세팅
             inputHours.value = 3;
             inputCoupangCount.value = 10;
             inputCoupangBase.value = 35000;
@@ -304,7 +316,16 @@
             });
 
             resetBtn.addEventListener('click', resetInputs);
-            copyBtn.addEventListener('click', copySummaryToClipboard);
+
+            // 줄바꿈 복사 버튼
+            copyMultilineBtn.addEventListener('click', () => {
+                copyToClipboard(multilineSummaryText, "줄바꿈 텍스트가 복사되었습니다!");
+            });
+
+            // 한줄 복사 버튼
+            copySinglelineBtn.addEventListener('click', () => {
+                copyToClipboard(singlelineSummaryText, "한줄 텍스트가 복사되었습니다!");
+            });
 
             btnFontDec.addEventListener('click', () => changeFontSize(-1));
             btnFontInc.addEventListener('click', () => changeFontSize(1));
@@ -363,8 +384,6 @@
 
             resultTableBody.innerHTML = '';
 
-            let selectedSummary = '';
-
             promoList.forEach((promo, idx) => {
                 // 쿠팡 건수에만 프로모션 단가 적용
                 const promoEarnings = coupangCount * promo.unitRate;
@@ -403,14 +422,19 @@
 
                 resultTableBody.appendChild(tr);
 
-                // 선택된 프로모션의 요약 문구 생성 (줄바꿈 \n 방식 적용)
+                // 선택된 프로모션의 요약 문구 생성
                 if (isSelected) {
                     const countPerHour = hours > 0 ? (totalCount / hours).toFixed(1) : '0.0';
-                    selectedSummary = `총 ${hours}시간\n총수익 ${totalIncome.toLocaleString()}원\n총 ${totalCount.toLocaleString()}건\n${countPerHour}건/h\n시급 ${hourlyRate.toLocaleString()}원\n건당 ${perCountRate.toLocaleString()}원\n프로모션 ${promoEarnings.toLocaleString()}원`;
+
+                    // 줄바꿈 버전 (채팅용)
+                    multilineSummaryText = `총 ${hours}시간\n총수익 ${totalIncome.toLocaleString()}원\n총 ${totalCount.toLocaleString()}건\n${countPerHour}건/h\n시급 ${hourlyRate.toLocaleString()}원\n건당 ${perCountRate.toLocaleString()}원\n프로모션 ${promoEarnings.toLocaleString()}원`;
+
+                    // 한줄 버전 (가계부용)
+                    singlelineSummaryText = `총 ${hours}시간, 총수익 ${totalIncome.toLocaleString()}원, 총 ${totalCount.toLocaleString()}건, ${countPerHour}건/h, 시급 ${hourlyRate.toLocaleString()}원, 건당 ${perCountRate.toLocaleString()}원, 프로모션 ${promoEarnings.toLocaleString()}원`;
                 }
             });
 
-            summaryText.textContent = selectedSummary;
+            summaryText.textContent = multilineSummaryText;
         }
 
         // 입력값 초기화
@@ -425,27 +449,26 @@
             inputHours.focus();
         }
 
-        // 복사 기능
-        function copySummaryToClipboard() {
-            const textToCopy = summaryText.textContent.trim();
+        // 클립보드 복사 공통 함수
+        function copyToClipboard(textToCopy, msg) {
             if (!textToCopy) return;
 
             navigator.clipboard.writeText(textToCopy).then(() => {
-                showToast();
+                showToast(msg);
             }).catch(() => {
-                // Clipboard API 실패 시 대체
                 const textarea = document.createElement('textarea');
                 textarea.value = textToCopy;
                 document.body.appendChild(textarea);
                 textarea.select();
                 document.execCommand('copy');
                 document.body.removeChild(textarea);
-                showToast();
+                showToast(msg);
             });
         }
 
         // 토스트 알림
-        function showToast() {
+        function showToast(msg) {
+            toastMessage.textContent = msg;
             toast.classList.remove('translate-y-16', 'opacity-0');
             toast.classList.add('translate-y-0', 'opacity-100');
             setTimeout(() => {
