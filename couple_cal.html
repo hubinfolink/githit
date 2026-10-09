@@ -422,15 +422,19 @@
 
                 resultTableBody.appendChild(tr);
 
-                // 선택된 프로모션의 요약 문구 생성 (프로모션 카테고리 명칭 포함)
+                // 선택된 프로모션의 요약 문구 생성 (쿠팡 미션금액 포함)
                 if (isSelected) {
                     const countPerHour = hours > 0 ? (totalCount / hours).toFixed(1) : '0.0';
 
+                    // 쿠팡 미션금액 항목 문구 (있을 경우만 표시)
+                    const missionPart = coupangMission > 0 ? `쿠팡 미션 ${coupangMission.toLocaleString()}원\n` : '';
+                    const missionPartSingle = coupangMission > 0 ? `쿠팡 미션 ${coupangMission.toLocaleString()}원, ` : '';
+
                     // 줄바꿈 버전 (채팅용)
-                    multilineSummaryText = `총 ${hours}시간\n총수익 ${totalIncome.toLocaleString()}원\n총 ${totalCount.toLocaleString()}건\n${countPerHour}건/h\n시급 ${hourlyRate.toLocaleString()}원\n건당 ${perCountRate.toLocaleString()}원\n프로모션 ${promo.name} ${promoEarnings.toLocaleString()}원`;
+                    multilineSummaryText = `총 ${hours}시간\n총수익 ${totalIncome.toLocaleString()}원\n총 ${totalCount.toLocaleString()}건\n${countPerHour}건/h\n시급 ${hourlyRate.toLocaleString()}원\n건당 ${perCountRate.toLocaleString()}원\n${missionPart}프로모션 ${promo.name} ${promoEarnings.toLocaleString()}원`;
 
                     // 한줄 버전 (가계부용)
-                    singlelineSummaryText = `총 ${hours}시간, 총수익 ${totalIncome.toLocaleString()}원, 총 ${totalCount.toLocaleString()}건, ${countPerHour}건/h, 시급 ${hourlyRate.toLocaleString()}원, 건당 ${perCountRate.toLocaleString()}원, 프로모션 ${promo.name} ${promoEarnings.toLocaleString()}원`;
+                    singlelineSummaryText = `총 ${hours}시간, 총수익 ${totalIncome.toLocaleString()}원, 총 ${totalCount.toLocaleString()}건, ${countPerHour}건/h, 시급 ${hourlyRate.toLocaleString()}원, 건당 ${perCountRate.toLocaleString()}원, ${missionPartSingle}프로모션 ${promo.name} ${promoEarnings.toLocaleString()}원`;
                 }
             });
 
