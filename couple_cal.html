@@ -191,7 +191,7 @@
                 <button data-promo-idx="5" class="promo-tab-btn px-2.5 py-1 rounded-lg bg-slate-800 text-slate-400 font-semibold transition shrink-0 active:scale-95">P0</button>
             </div>
 
-            <!-- 요약 문구 결과 박스 및 2개 복사 버튼 -->
+            <!-- 요약 문구 결과 박스 및 3개 복사 버튼 -->
             <div class="bg-slate-900/90 rounded-xl p-3 border border-slate-700/80 flex flex-col gap-3">
                 <div id="summaryText" class="text-sm font-semibold text-slate-100 tracking-wide select-all break-all whitespace-pre-line leading-snug">
 총 0시간
@@ -203,15 +203,22 @@
 프로모션 P400(57) 0원
                 </div>
 
-                <!-- 복사 버튼 2개 (줄바꿈 / 한줄) -->
-                <div class="flex items-center gap-2 pt-2 border-t border-slate-800">
-                    <button id="copyMultilineBtn" class="flex-1 bg-emerald-600 hover:bg-emerald-500 text-white py-2 rounded-lg font-bold text-xs flex items-center justify-center gap-1.5 active:scale-95 transition shadow-lg shadow-emerald-950">
-                        <i class="fa-regular fa-copy"></i>
-                        <span>줄바꿈 복사 (채팅용)</span>
-                    </button>
-                    <button id="copySinglelineBtn" class="flex-1 bg-sky-600 hover:bg-sky-500 text-white py-2 rounded-lg font-bold text-xs flex items-center justify-center gap-1.5 active:scale-95 transition shadow-lg shadow-sky-950">
-                        <i class="fa-regular fa-file-lines"></i>
-                        <span>한줄 복사 (가계부용)</span>
+                <!-- 복사 버튼 3개 -->
+                <div class="flex flex-col gap-2 pt-2 border-t border-slate-800">
+                    <div class="flex items-center gap-2">
+                        <button id="copyMultilineBtn" class="flex-1 bg-emerald-600 hover:bg-emerald-500 text-white py-2 rounded-lg font-bold text-xs flex items-center justify-center gap-1.5 active:scale-95 transition shadow-lg shadow-emerald-950">
+                            <i class="fa-regular fa-copy"></i>
+                            <span>줄바꿈 복사 (채팅용)</span>
+                        </button>
+                        <button id="copySinglelineBtn" class="flex-1 bg-sky-600 hover:bg-sky-500 text-white py-2 rounded-lg font-bold text-xs flex items-center justify-center gap-1.5 active:scale-95 transition shadow-lg shadow-sky-950">
+                            <i class="fa-regular fa-file-lines"></i>
+                            <span>전체 한줄 복사</span>
+                        </button>
+                    </div>
+                    <!-- 신규: 핵심 한줄 복사 버튼 -->
+                    <button id="copyCoreBtn" class="w-full bg-purple-600 hover:bg-purple-500 text-white py-2 rounded-lg font-bold text-xs flex items-center justify-center gap-1.5 active:scale-95 transition shadow-lg shadow-purple-950">
+                        <i class="fa-solid fa-list-check"></i>
+                        <span>핵심 한줄 복사 (건수/건h/시급/건당)</span>
                     </button>
                 </div>
             </div>
@@ -268,6 +275,7 @@
         let currentFontSize = parseInt(localStorage.getItem('rider_font_size')) || 22;
         let multilineSummaryText = '';
         let singlelineSummaryText = '';
+        let coreSummaryText = '';
 
         // DOM 요소
         const inputHours = document.getElementById('inputHours');
@@ -282,6 +290,7 @@
         const resetBtn = document.getElementById('resetBtn');
         const copyMultilineBtn = document.getElementById('copyMultilineBtn');
         const copySinglelineBtn = document.getElementById('copySinglelineBtn');
+        const copyCoreBtn = document.getElementById('copyCoreBtn');
         const toast = document.getElementById('toast');
         const toastMessage = document.getElementById('toastMessage');
         const promoTabs = document.getElementById('promoTabs');
@@ -322,9 +331,14 @@
                 copyToClipboard(multilineSummaryText, "줄바꿈 텍스트가 복사되었습니다!");
             });
 
-            // 한줄 복사 버튼
+            // 전체 한줄 복사 버튼
             copySinglelineBtn.addEventListener('click', () => {
-                copyToClipboard(singlelineSummaryText, "한줄 텍스트가 복사되었습니다!");
+                copyToClipboard(singlelineSummaryText, "전체 한줄 텍스트가 복사되었습니다!");
+            });
+
+            // 핵심 한줄 복사 버튼
+            copyCoreBtn.addEventListener('click', () => {
+                copyToClipboard(coreSummaryText, "핵심 요약 텍스트가 복사되었습니다!");
             });
 
             btnFontDec.addEventListener('click', () => changeFontSize(-1));
@@ -422,7 +436,7 @@
 
                 resultTableBody.appendChild(tr);
 
-                // 선택된 프로모션의 요약 문구 생성 (쿠팡 미션금액 포함)
+                // 선택된 프로모션의 요약 문구 생성
                 if (isSelected) {
                     const countPerHour = hours > 0 ? (totalCount / hours).toFixed(1) : '0.0';
 
@@ -430,11 +444,14 @@
                     const missionPart = coupangMission > 0 ? `쿠팡 미션 ${coupangMission.toLocaleString()}원\n` : '';
                     const missionPartSingle = coupangMission > 0 ? `쿠팡 미션 ${coupangMission.toLocaleString()}원, ` : '';
 
-                    // 줄바꿈 버전 (채팅용)
+                    // 1. 줄바꿈 버전 (채팅용)
                     multilineSummaryText = `총 ${hours}시간\n총수익 ${totalIncome.toLocaleString()}원\n총 ${totalCount.toLocaleString()}건\n${countPerHour}건/h\n시급 ${hourlyRate.toLocaleString()}원\n건당 ${perCountRate.toLocaleString()}원\n${missionPart}프로모션 ${promo.name} ${promoEarnings.toLocaleString()}원`;
 
-                    // 한줄 버전 (가계부용)
+                    // 2. 전체 한줄 버전 (가계부용)
                     singlelineSummaryText = `총 ${hours}시간, 총수익 ${totalIncome.toLocaleString()}원, 총 ${totalCount.toLocaleString()}건, ${countPerHour}건/h, 시급 ${hourlyRate.toLocaleString()}원, 건당 ${perCountRate.toLocaleString()}원, ${missionPartSingle}프로모션 ${promo.name} ${promoEarnings.toLocaleString()}원`;
+
+                    // 3. 핵심 한줄 버전 (요청 항목: 총 건수, 건/h, 시급, 건당)
+                    coreSummaryText = `총 ${totalCount.toLocaleString()}건, ${countPerHour}건/h, 시급 ${hourlyRate.toLocaleString()}원, 건당 ${perCountRate.toLocaleString()}원`;
                 }
             });
 
