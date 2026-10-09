@@ -200,7 +200,7 @@
 0.0건/h
 시급 0원
 건당 0원
-프로모션 0원
+프로모션 P400(57) 0원
                 </div>
 
                 <!-- 복사 버튼 2개 (줄바꿈 / 한줄) -->
@@ -422,15 +422,15 @@
 
                 resultTableBody.appendChild(tr);
 
-                // 선택된 프로모션의 요약 문구 생성
+                // 선택된 프로모션의 요약 문구 생성 (프로모션 카테고리 명칭 포함)
                 if (isSelected) {
                     const countPerHour = hours > 0 ? (totalCount / hours).toFixed(1) : '0.0';
 
                     // 줄바꿈 버전 (채팅용)
-                    multilineSummaryText = `총 ${hours}시간\n총수익 ${totalIncome.toLocaleString()}원\n총 ${totalCount.toLocaleString()}건\n${countPerHour}건/h\n시급 ${hourlyRate.toLocaleString()}원\n건당 ${perCountRate.toLocaleString()}원\n프로모션 ${promoEarnings.toLocaleString()}원`;
+                    multilineSummaryText = `총 ${hours}시간\n총수익 ${totalIncome.toLocaleString()}원\n총 ${totalCount.toLocaleString()}건\n${countPerHour}건/h\n시급 ${hourlyRate.toLocaleString()}원\n건당 ${perCountRate.toLocaleString()}원\n프로모션 ${promo.name} ${promoEarnings.toLocaleString()}원`;
 
                     // 한줄 버전 (가계부용)
-                    singlelineSummaryText = `총 ${hours}시간, 총수익 ${totalIncome.toLocaleString()}원, 총 ${totalCount.toLocaleString()}건, ${countPerHour}건/h, 시급 ${hourlyRate.toLocaleString()}원, 건당 ${perCountRate.toLocaleString()}원, 프로모션 ${promoEarnings.toLocaleString()}원`;
+                    singlelineSummaryText = `총 ${hours}시간, 총수익 ${totalIncome.toLocaleString()}원, 총 ${totalCount.toLocaleString()}건, ${countPerHour}건/h, 시급 ${hourlyRate.toLocaleString()}원, 건당 ${perCountRate.toLocaleString()}원, 프로모션 ${promo.name} ${promoEarnings.toLocaleString()}원`;
                 }
             });
 
