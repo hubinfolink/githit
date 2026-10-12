@@ -283,7 +283,8 @@
         ];
 
         // 기본 상태
-        let currentPromoIndex = 0;
+		// [설정] 초기 기본으로 선택될 프로모션 번호 (0: P400, 1: P350, 2: P300, 3: P250, 4: P200, 5: P0 중 원하시는 번호로 수정하세요)
+        let currentPromoIndex = 3;
         let currentFontSize = parseInt(localStorage.getItem('rider_font_size')) || 22;
         let multilineSummaryText = '';
         let singlelineSummaryText = '';
@@ -372,6 +373,7 @@
             });
 
             calculateAll();
+			updateTabsUI();
         }
 
         // 폰트 크기 변경 함수
